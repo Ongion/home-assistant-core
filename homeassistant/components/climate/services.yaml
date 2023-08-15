@@ -105,6 +105,21 @@ set_fan_mode:
       selector:
         text:
 
+set_fan_speed:
+  target:
+    entity:
+      domain: climate
+      supported_features:
+        - climate.ClimateEntityFeature.FAN_SPEED
+  fields:
+    fan_speed:
+      required: true
+      selector:
+        number:
+          min: 20
+          max: 100
+          unit_of_measurement: "%"
+
 set_hvac_mode:
   target:
     entity:

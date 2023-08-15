@@ -11,6 +11,7 @@ from homeassistant.core import Context, HomeAssistant, State
 from .const import (
     ATTR_AUX_HEAT,
     ATTR_FAN_MODE,
+    ATTR_FAN_SPEED,
     ATTR_HUMIDITY,
     ATTR_HVAC_MODE,
     ATTR_PRESET_MODE,
@@ -21,6 +22,7 @@ from .const import (
     HVAC_MODES,
     SERVICE_SET_AUX_HEAT,
     SERVICE_SET_FAN_MODE,
+    SERVICE_SET_FAN_SPEED,
     SERVICE_SET_HUMIDITY,
     SERVICE_SET_HVAC_MODE,
     SERVICE_SET_PRESET_MODE,
@@ -74,6 +76,9 @@ async def _async_reproduce_states(
 
     if ATTR_FAN_MODE in state.attributes:
         await call_service(SERVICE_SET_FAN_MODE, [ATTR_FAN_MODE])
+
+    if ATTR_FAN_SPEED in state.attributes:
+        await call_service(SERVICE_SET_FAN_SPEED, [ATTR_FAN_SPEED])
 
     if ATTR_HUMIDITY in state.attributes:
         await call_service(SERVICE_SET_HUMIDITY, [ATTR_HUMIDITY])

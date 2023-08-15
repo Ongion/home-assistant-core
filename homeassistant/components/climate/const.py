@@ -113,6 +113,7 @@ ATTR_CURRENT_HUMIDITY = "current_humidity"
 ATTR_CURRENT_TEMPERATURE = "current_temperature"
 ATTR_FAN_MODES = "fan_modes"
 ATTR_FAN_MODE = "fan_mode"
+ATTR_FAN_SPEED = "fan_speed"
 ATTR_PRESET_MODE = "preset_mode"
 ATTR_PRESET_MODES = "preset_modes"
 ATTR_HUMIDITY = "humidity"
@@ -138,6 +139,7 @@ DOMAIN = "climate"
 
 SERVICE_SET_AUX_HEAT = "set_aux_heat"
 SERVICE_SET_FAN_MODE = "set_fan_mode"
+SERVICE_SET_FAN_SPEED = "set_fan_speed"
 SERVICE_SET_PRESET_MODE = "set_preset_mode"
 SERVICE_SET_HUMIDITY = "set_humidity"
 SERVICE_SET_HVAC_MODE = "set_hvac_mode"
@@ -155,6 +157,7 @@ class ClimateEntityFeature(IntFlag):
     PRESET_MODE = 16
     SWING_MODE = 32
     AUX_HEAT = 64
+    FAN_SPEED = 128
 
 
 # These SUPPORT_* constants are deprecated as of Home Assistant 2022.5.

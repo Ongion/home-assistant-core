@@ -39,6 +39,7 @@ from .const import (  # noqa: F401
     ATTR_CURRENT_TEMPERATURE,
     ATTR_FAN_MODE,
     ATTR_FAN_MODES,
+    ATTR_FAN_SPEED,
     ATTR_HUMIDITY,
     ATTR_HVAC_ACTION,
     ATTR_HVAC_MODE,
@@ -80,6 +81,7 @@ from .const import (  # noqa: F401
     PRESET_SLEEP,
     SERVICE_SET_AUX_HEAT,
     SERVICE_SET_FAN_MODE,
+    SERVICE_SET_FAN_SPEED,
     SERVICE_SET_HUMIDITY,
     SERVICE_SET_HVAC_MODE,
     SERVICE_SET_PRESET_MODE,
@@ -180,6 +182,12 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         [ClimateEntityFeature.FAN_MODE],
     )
     component.async_register_entity_service(
+        SERVICE_SET_FAN_SPEED,
+        {vol.Required(ATTR_FAN_SPEED): vol.Coerce(int)},
+        "async_set_fan_speed",
+        [ClimateEntityFeature.FAN_SPEED],
+    )
+    component.async_register_entity_service(
         SERVICE_SET_SWING_MODE,
         {vol.Required(ATTR_SWING_MODE): cv.string},
         "async_set_swing_mode",
@@ -214,6 +222,7 @@ class ClimateEntity(Entity):
     _attr_current_temperature: float | None = None
     _attr_fan_mode: str | None
     _attr_fan_modes: list[str] | None
+    _attr_fan_speed: int | None
     _attr_hvac_action: HVACAction | None = None
     _attr_hvac_mode: HVACMode | None
     _attr_hvac_modes: list[HVACMode]
@@ -326,6 +335,9 @@ class ClimateEntity(Entity):
 
         if supported_features & ClimateEntityFeature.FAN_MODE:
             data[ATTR_FAN_MODE] = self.fan_mode
+
+        if supported_features & ClimateEntityFeature.FAN_SPEED:
+            data[ATTR_FAN_SPEED] = self.fan_speed
 
         if hvac_action := self.hvac_action:
             data[ATTR_HVAC_ACTION] = hvac_action
@@ -443,6 +455,14 @@ class ClimateEntity(Entity):
         return self._attr_fan_modes
 
     @property
+    def fan_speed(self) -> int | None:
+        """Return the fan setting.
+
+        Requires ClimateEntityFeature.FAN_SPEED.
+        """
+        return self._attr_fan_speed
+
+    @property
     def swing_mode(self) -> str | None:
         """Return the swing setting.
 
@@ -483,6 +503,14 @@ class ClimateEntity(Entity):
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new target fan mode."""
         await self.hass.async_add_executor_job(self.set_fan_mode, fan_mode)
+
+    def set_fan_speed(self, fan_speed: int) -> None:
+        """Set new target fan speed."""
+        raise NotImplementedError()
+
+    async def async_set_fan_speed(self, fan_speed: int) -> None:
+        """Set new target fan speed."""
+        await self.hass.async_add_executor_job(self.set_fan_speed, fan_speed)
 
     def set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set new target hvac mode."""

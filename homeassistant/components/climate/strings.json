@@ -55,6 +55,9 @@
         "fan_modes": {
           "name": "Fan modes"
         },
+        "fan_speed": {
+          "name": "Fan speed"
+        },
         "humidity": {
           "name": "Target humidity"
         },
@@ -189,6 +192,16 @@
         "fan_mode": {
           "name": "Fan mode",
           "description": "Fan operation mode."
+        }
+      }
+    },
+    "set_fan_speed": {
+      "name": "Set fan speed",
+      "description": "Sets fan speed.",
+      "fields": {
+        "fan_speed": {
+          "name": "Fan speed",
+          "description": "Fan speed."
         }
       }
     },
