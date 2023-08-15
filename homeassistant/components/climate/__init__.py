@@ -44,8 +44,10 @@ from .const import (  # noqa: F401
     ATTR_HVAC_ACTION,
     ATTR_HVAC_MODE,
     ATTR_HVAC_MODES,
+    ATTR_MAX_FAN_SPEED,
     ATTR_MAX_HUMIDITY,
     ATTR_MAX_TEMP,
+    ATTR_MIN_FAN_SPEED,
     ATTR_MIN_HUMIDITY,
     ATTR_MIN_TEMP,
     ATTR_PRESET_MODE,
@@ -108,6 +110,8 @@ DEFAULT_MIN_TEMP = 7
 DEFAULT_MAX_TEMP = 35
 DEFAULT_MIN_HUMIDITY = 30
 DEFAULT_MAX_HUMIDITY = 99
+DEFAULT_MIN_FAN_SPEED = 20
+DEFAULT_MAX_FAN_SPEED = 100
 
 ENTITY_ID_FORMAT = DOMAIN + ".{}"
 SCAN_INTERVAL = timedelta(seconds=60)
@@ -227,8 +231,10 @@ class ClimateEntity(Entity):
     _attr_hvac_mode: HVACMode | None
     _attr_hvac_modes: list[HVACMode]
     _attr_is_aux_heat: bool | None
+    _attr_max_fan_speed: int = DEFAULT_MAX_FAN_SPEED
     _attr_max_humidity: int = DEFAULT_MAX_HUMIDITY
     _attr_max_temp: float
+    _attr_min_fan_speed: int = DEFAULT_MIN_FAN_SPEED
     _attr_min_humidity: int = DEFAULT_MIN_HUMIDITY
     _attr_min_temp: float
     _attr_precision: float
@@ -287,6 +293,10 @@ class ClimateEntity(Entity):
 
         if supported_features & ClimateEntityFeature.FAN_MODE:
             data[ATTR_FAN_MODES] = self.fan_modes
+
+        if supported_features & ClimateEntityFeature.FAN_SPEED:
+            data[ATTR_MIN_FAN_SPEED] = self.min_fan_speed
+            data[ATTR_MAX_FAN_SPEED] = self.max_fan_speed
 
         if supported_features & ClimateEntityFeature.PRESET_MODE:
             data[ATTR_PRESET_MODES] = self.preset_modes
@@ -615,6 +625,16 @@ class ClimateEntity(Entity):
     def max_humidity(self) -> int:
         """Return the maximum humidity."""
         return self._attr_max_humidity
+
+    @property
+    def min_fan_speed(self) -> int:
+        """Return the minimum fan speed."""
+        return self._attr_min_fan_speed
+
+    @property
+    def max_fan_speed(self) -> int:
+        """Return the maximum fan speed."""
+        return self._attr_max_fan_speed
 
 
 async def async_service_aux_heat(

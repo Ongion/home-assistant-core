@@ -76,11 +76,17 @@
         "hvac_modes": {
           "name": "HVAC modes"
         },
+        "max_fan_speed": {
+          "name": "Max fan speed"
+        },
         "max_humidity": {
           "name": "Max target humidity"
         },
         "max_temp": {
           "name": "Max target temperature"
+        },
+        "min_fan_speed": {
+          "name": "Min fan speed"
         },
         "min_humidity": {
           "name": "Min target humidity"

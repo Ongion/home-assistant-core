@@ -114,6 +114,8 @@ ATTR_CURRENT_TEMPERATURE = "current_temperature"
 ATTR_FAN_MODES = "fan_modes"
 ATTR_FAN_MODE = "fan_mode"
 ATTR_FAN_SPEED = "fan_speed"
+ATTR_MIN_FAN_SPEED = "min_fan_speed"
+ATTR_MAX_FAN_SPEED = "max_fan_speed"
 ATTR_PRESET_MODE = "preset_mode"
 ATTR_PRESET_MODES = "preset_modes"
 ATTR_HUMIDITY = "humidity"
@@ -134,6 +136,8 @@ DEFAULT_MIN_TEMP = 7
 DEFAULT_MAX_TEMP = 35
 DEFAULT_MIN_HUMIDITY = 30
 DEFAULT_MAX_HUMIDITY = 99
+DEFAULT_MIN_FAN_SPEED = 20
+DEFAULT_MAX_FAN_SPEED = 100
 
 DOMAIN = "climate"
 
