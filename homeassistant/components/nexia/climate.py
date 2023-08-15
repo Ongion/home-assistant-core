@@ -166,11 +166,20 @@ class NexiaZone(NexiaThermostatZoneEntity, ClimateEntity):
         self._has_emergency_heat = self._thermostat.has_emergency_heat()
         self._has_humidify_support = self._thermostat.has_humidify_support()
         self._has_dehumidify_support = self._thermostat.has_dehumidify_support()
+        self._has_fan_speed_support = self._thermostat.has_variable_fan_speed()
         self._attr_supported_features = NEXIA_SUPPORTED
         if self._has_humidify_support or self._has_dehumidify_support:
             self._attr_supported_features |= ClimateEntityFeature.TARGET_HUMIDITY
         if self._has_emergency_heat:
             self._attr_supported_features |= ClimateEntityFeature.AUX_HEAT
+        if self._has_fan_speed_support:
+            self._attr_supported_features |= ClimateEntityFeature.FAN_SPEED
+            (
+                min_fan_speed,
+                max_fan_speed,
+            ) = self._thermostat.get_variable_fan_speed_limits()
+            self._attr_min_fan_speed = percent_conv(min_fan_speed)
+            self._attr_max_fan_speed = percent_conv(max_fan_speed)
         self._attr_preset_modes = self._zone.get_presets()
         self._attr_fan_modes = self._thermostat.get_fan_modes()
         self._attr_hvac_modes = HVAC_MODES
@@ -201,6 +210,16 @@ class NexiaZone(NexiaThermostatZoneEntity, ClimateEntity):
     async def async_set_fan_mode(self, fan_mode: str) -> None:
         """Set new target fan mode."""
         await self._thermostat.set_fan_mode(fan_mode)
+        self._signal_thermostat_update()
+
+    @property
+    def fan_speed(self):
+        """Return the fan speed setting."""
+        return percent_conv(self._thermostat.get_fan_speed_setpoint())
+
+    async def async_set_fan_speed(self, fan_speed: int) -> None:
+        """Set new target fan mode."""
+        await self._thermostat.set_fan_setpoint(fan_speed / 100)
         self._signal_thermostat_update()
 
     async def async_set_hvac_run_mode(self, run_mode, hvac_mode):
