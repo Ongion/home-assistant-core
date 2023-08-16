@@ -6,8 +6,10 @@ from homeassistant.core import HomeAssistant, callback
 from .const import (
     ATTR_FAN_MODES,
     ATTR_HVAC_MODES,
+    ATTR_MAX_FAN_SPEED,
     ATTR_MAX_HUMIDITY,
     ATTR_MAX_TEMP,
+    ATTR_MIN_FAN_SPEED,
     ATTR_MIN_HUMIDITY,
     ATTR_MIN_TEMP,
     ATTR_PRESET_MODES,
@@ -27,6 +29,8 @@ def exclude_attributes(hass: HomeAssistant) -> set[str]:
         ATTR_MAX_TEMP,
         ATTR_MIN_HUMIDITY,
         ATTR_MAX_HUMIDITY,
+        ATTR_MIN_FAN_SPEED,
+        ATTR_MAX_FAN_SPEED,
         ATTR_TARGET_TEMP_STEP,
         ATTR_PRESET_MODES,
     }
